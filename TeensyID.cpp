@@ -224,58 +224,32 @@ const char* teensyUID64(void) {
 
 #endif
 
-#if defined ARDUINO_TEENSY41
- const char* teensyBoardVersion(void) {
-     static char boardVersion[16] = "Teensy 4.1";
-     return boardVersion;
- }
-
-#elif defined ARDUINO_TEENSY40
-const char* teensyBoardVersion(void) {
- static char boardVersion[16] = "Teensy 4.0";
- return boardVersion;
-}
-
-#elif defined ARDUINO_TEENSYLC
-const char* teensyBoardVersion(void) {
- static char boardVersion[16] = "Teensy LC";
- return boardVersion;
-}
-
-#elif defined ARDUINO_TEENSY36
-const char* teensyBoardVersion(void) {
- static char boardVersion[16] = "Teensy 3.6";
- return boardVersion;
-}
-
-#elif defined ARDUINO_TEENSY35
-const char* teensyBoardVersion(void) {
- static char boardVersion[16] = "Teensy 3.5";
- return boardVersion;
-}
-
-#elif defined ARDUINO_TEENSY32
-const char* teensyBoardVersion(void) {
- static char boardVersion[16] = "Teensy 3.2";
- return boardVersion;
-}
-
-#elif defined ARDUINO_TEENSY31
-const char* teensyBoardVersion(void) {
- static char boardVersion[16] = "Teensy 3.1";
- return boardVersion;
-}
-
-#elif defined ARDUINO_TEENSY30
-const char* teensyBoardVersion(void) {
- static char boardVersion[16] = "Teensy 3.0";
- return boardVersion;
-}
-
-#else 
-const char* teensyBoardVersion(void) {
-    static char boardVersion[16] = "Unknown Teensy";
-    return boardVersion;
-   }
-#endif
+void teensyBoardVersion(char* buffer, size_t buflen) {
+	const char* version =
+	#if defined(ARDUINO_TEENSY41)
+	  "Teensy 4.1";
+	#elif defined(ARDUINO_TEENSY40)
+	  "Teensy 4.0";
+	#elif defined(ARDUINO_TEENSYLC)
+	  "Teensy LC";
+	#elif defined(ARDUINO_TEENSY36)
+	  "Teensy 3.6";
+	#elif defined(ARDUINO_TEENSY35)
+	  "Teensy 3.5";
+	#elif defined(ARDUINO_TEENSY32)
+	  "Teensy 3.2";
+	#elif defined(ARDUINO_TEENSY31)
+	  "Teensy 3.1";
+	#elif defined(ARDUINO_TEENSY30)
+	  "Teensy 3.0";
+	#else
+	  "Unknown Teensy";
+	#endif
+  
+	if (buffer && buflen > 0) {
+	  strncpy(buffer, version, buflen - 1);
+	  buffer[buflen - 1] = '\0'; // Ensure null termination
+	}
+  }
+  
 

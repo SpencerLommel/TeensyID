@@ -91,13 +91,16 @@ void teensyUUID(uint8_t *uid);
 const char* teensyUUID(void);
 
 /** Teensy UID 64-bit for Teensy 4.x
-  *
-  * @param uid Pointer to an array with size of 16 uint8_t which contents the uuid
-  *
-  * @note
-  * It is an UUID extracted from the Kinetis UID and the MAC Address.
-  * It is marked as version 4, (pseudo)random based
-  */
+ *
+ * @param uid Pointer to an array with size of 16 uint8_t which contents the
+ * uuid
+ *
+ * @note
+ * It is an UUID extracted from the Kinetis UID and the MAC Address.
+ * It is marked as version 4, (pseudo)random based
+ */
+#if defined(ARDUINO_TEENSY40) || defined(ARDUINO_TEENSY41)
+
 void teensyUID64(uint8_t *uid64);
 
 /** Teensy UID 64-bit for Teensy 4.x
@@ -106,12 +109,15 @@ void teensyUID64(uint8_t *uid64);
   * A formated string in hex xxxx-xx-xx-xx-xxxxxx
   */
 const char* teensyUID64(void);
-
+#endif
 /** Teensy Board Version
   *
-  * @returns
-  * A string containing the board name as specified on https://www.pjrc.com/teensy/
-  */ 
-const char* teensyBoardVersion(void);
+  * @param buffer A user-provided char buffer
+  * @param buflen Size of the buffer (should be >= 16)
+  *
+  * @note This is a safer, reentrant version of the original teensyBoardVersion().
+  *       The returned board name will be copied into the provided buffer.
+  */
+  void teensyBoardVersion(char* buffer, size_t buflen);
 
 #endif
